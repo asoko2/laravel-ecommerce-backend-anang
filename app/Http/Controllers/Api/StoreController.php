@@ -22,7 +22,8 @@ class StoreController extends Controller
 
     //product by store
     public function productByStore(Request $request, $id){
-        $products = Product::where('seller_id', $id)->get();
+        // $products = Product::where('seller_id', $id)->get();
+        $products = User::find($id)->products;
 
         return response()->json([
             'status' => 'success',

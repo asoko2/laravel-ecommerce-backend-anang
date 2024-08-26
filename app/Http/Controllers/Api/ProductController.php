@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Log;
 
 class ProductController extends Controller
 {
@@ -71,10 +72,14 @@ class ProductController extends Controller
             ], 404);
         }
 
+        Log::info($request->all());
+
         $image = $product->photo;
         if($request->hasFile('image')){
             $image = $request->file('image')->store('assets/product', 'public');
         }
+
+        Log::info($image);
 
         //update product
         $product->update([
@@ -83,7 +88,7 @@ class ProductController extends Controller
             'description' => $request->description,
             'price' => $request->price,
             'stock' => $request->stock,
-            'photo' => $image,
+            'image' => $image,
         ]);
 
         return response()->json([
